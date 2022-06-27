@@ -11,9 +11,7 @@ exports.addData = async (req, res) => {
             await validator.ValidatePhoneNo(req.body.agency.phoneNumber) &&
             await validator.validateAddress(req.body.agency.address1)
         ) {
-            console.log("inside try")
             const AgencyId = await helper.generateAgencyId();
-            console.log("AgencyId", AgencyId)
             const agencyData = await Agency.create({
                 AgencyId: AgencyId,
                 Name: req.body.agency.name,
@@ -119,7 +117,6 @@ exports.updateClient = async (req, res) => {
 
 exports.getDetails = async (req, res) => {
     try {
-        console.log("inside get Details")
         console.log(req.params.AgencyId)
         const AgentDetails = await Agency.find(
             { AgencyId: req.params.AgencyId },
@@ -143,7 +140,7 @@ exports.getDetails = async (req, res) => {
             res.status(400).json({
                 status: 'success',
                 data: {
-                    message: 'No defects available in the repo',
+                    message: 'No data available',
                 },
             });
         }
@@ -154,4 +151,11 @@ exports.getDetails = async (req, res) => {
             message: err,
         });
     }
+};
+
+exports.invalid = async (req, res) => {
+    res.status(404).json({
+        status: 'fail',
+        message: 'Invalid path',
+    });
 };
